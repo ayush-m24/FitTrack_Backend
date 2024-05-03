@@ -41,6 +41,8 @@ app.use(
             }
         },
         credentials: true, // Allow credentials
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+        allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
     })
 );
 //For storing cookies. (Auth token, refresh token) Cookie parser intitialized to recognize cookies.
