@@ -101,8 +101,8 @@ router.post('/login', async (req, res, next) => {
         const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: '100m' });
 
         //The authtoken and refreshtoken are sent and saved to the cookies in order for frontend to receive from back end.
-        res.cookie('authToken', authToken, { httpOnly: true, secure: true, path: '/' });
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, path: '/' });
+        res.cookie('authToken', authToken, { httpOnly: true, secure: true, sameSite: 'None', path: '/' });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'None', path: '/' });
         //Once login in successful send the following response
         res.status(200).json(createResponse(true, 'Login successful', {
             authToken,
