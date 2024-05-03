@@ -143,14 +143,14 @@ router.post('/sendotp', async (req, res, next) => {
         next(err);
     }
 })
-
+/*
 //Using the authTokenHandler check login tokens. If tokens are not expired then user autheticated.
 router.post('/checklogin', authTokenHandler, async (req, res, next) => {
     res.json({ //If authTokenhandler is passed then next process is intiated
         ok: true,
         message: 'User authenticated successfully'
     })
-})
+}) */
 
 
 
