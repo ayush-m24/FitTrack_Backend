@@ -156,8 +156,8 @@ router.post('/checklogin', authTokenHandler, async (req, res, next) => {
 
 router.post('/logout', (req, res) => {
     //Clear the authToken and refreshToken cookies
-    res.clearCookie('authToken', { path: '/' });
-    res.clearCookie('refreshToken', { path: '/' });
+    res.clearCookie('authToken', { path: '/', httpOnly: true, secure: true, sameSite: 'None'  });
+    res.clearCookie('refreshToken', { path: '/', httpOnly: true, secure: true, sameSite: 'None'  });
     //Send a response back to the client
     res.json(createResponse(true, 'Logout successful'));
   });
