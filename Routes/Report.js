@@ -133,7 +133,7 @@ router.get('/getreport', authTokenHandler, async (req, res) => {
     let goalWorkout = (user.goal === "weightLoss") ? 7 : (user.goal === "weightGain" ? 4 : 5);
 
     //Define goal steps based on user's goal.
-    let goalSteps = (user.goal === "weightLoss") ? 10000 : (user.goal === "weightGain" ? 5000 : 7500);
+    let goalSteps = (user.goal === "weightLoss") ? 10000 : (user.goal === "weightGain" ? 50000 : 75000);
 
     //Set a standard goal for daily sleep and water intake.
     let goalSleep = 60;
