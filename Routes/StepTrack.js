@@ -103,28 +103,34 @@ router.post('/getstepsbylimit', authTokenHandler, async (req, res) => {
     }
 });
 
-//Route to delete a specific step entry by date
+// Route to delete a specific step entry by date
 router.delete('/deletestepentry', authTokenHandler, async (req, res) => {
-    //Extract the date for which to delete the step entry
+    // Extract the date for which to delete the step entry
     const { date } = req.body;
 
-    //Validate that date is provided
+    // Validate that date is provided
     if (!date) {
-        //Return error if date is missing
+        // Return error if date is missing
         return res.status(400).json(createResponse(false, 'Please provide date'));
     }
 
-    //Retrieve the user ID from the request
+    // Retrieve the user ID from the request
     const userId = req.userId;
-    //Find the user in the database
+    // Find the user in the database
     const user = await User.findById({ _id: userId });
 
-    //Filter out the step entry for the given date
-    user.steps = user.steps.filter(entry => entry.date !== date);
+    // Filter out the step entry for the given date, making sure to compare only the date parts
+    user.steps = user.steps.filter(entry => {
+        const entryDate = new Date(entry.date);
+        const targetDate = new Date(date);
+        return !(entryDate.getDate() === targetDate.getDate() &&
+                 entryDate.getMonth() === targetDate.getMonth() &&
+                 entryDate.getFullYear() === targetDate.getFullYear());
+    });
 
-    //Save the updated user document
+    // Save the updated user document
     await user.save();
-    //Return success message
+    // Return success message
     res.json(createResponse(true, 'Steps entry deleted successfully'));
 });
 
