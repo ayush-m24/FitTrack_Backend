@@ -89,29 +89,29 @@ router.post('/getsleepbylimit', authTokenHandler, async (req, res) => {
     }
 });
 
-//DELETE route to remove a specific sleep entry based on the date provided
+// DELETE route to remove a specific sleep entry based on the date provided
 router.delete('/deletesleepentry', authTokenHandler, async (req, res) => {
     const { date } = req.body; // Extract the date from the request body as a string
 
-    if (!date) { //Ensure date is provided
+    if (!date) { // Ensure that date is provided
         return res.status(400).json(createResponse(false, 'Please provide date'));
     }
 
-    const userId = req.userId; //Extract user ID from the request
+    const userId = req.userId; // Extract user ID from the request
     const user = await User.findById({ _id: userId }); // Find user by ID
+
+    // Convert provided date string to Date object
+    const providedDate = new Date(date);
 
     // Filter out the sleep entry for the given date
     user.sleep = user.sleep.filter(entry => {
-        // Convert both dates to ISO date strings (YYYY-MM-DD) for accurate comparison
-        const entryDateISO = new Date(entry.date).toISOString().slice(0, 10);
-        const providedDateISO = new Date(date).toISOString().slice(0, 10);
-        
-        return entryDateISO !== providedDateISO;
+        return entry.date.toString() !== providedDate.toString();
     });
 
-    await user.save(); //Save the updated user document
+    await user.save(); // Save the updated user document
     res.json(createResponse(true, 'Sleep entry deleted successfully'));
 });
+
 
 
 //GET route to retrieve user-specific sleep goal information
